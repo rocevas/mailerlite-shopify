@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MailerLiteController extends Controller
 {
     /**
      * Show the form to enter the MailerLite API key.
      *
-     * @return \Illuminate\View\View
+     * @return \Inertia\Response
      */
     public function index()
     {
-        return view('mailerlite.connect');
+        return Inertia::render('Connect', []);
     }
 
     /**
@@ -34,7 +35,7 @@ class MailerLiteController extends Controller
         $user->mailerlite_api_key = $validated['mailerlite_api_key'];
         $user->save();
 
-        return redirect()->route('dashboard')
+        return redirect()->route('home')
             ->with('success', 'MailerLite API key saved successfully.');
     }
 }

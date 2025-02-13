@@ -10,10 +10,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "inertiajs/inertia-laravel": "^2.0",
         "kyon147/laravel-shopify": "^22.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "mailerlite/mailerlite-php": "^1.0"
+        "mailerlite/mailerlite-php": "^1.0",
+        "tightenco/ziggy": "^2.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

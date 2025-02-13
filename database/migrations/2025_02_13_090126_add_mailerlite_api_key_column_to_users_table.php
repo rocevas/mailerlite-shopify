@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('mailerlite_api_key')->nullable();
+            $table->text('mailerlite_api_key')->nullable();
         });
     }
 

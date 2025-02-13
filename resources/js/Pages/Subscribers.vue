@@ -13,8 +13,9 @@
                     { title: 'Sent' },
                     { title: 'Open' },
                     { title: 'Clicks' },
-                    { title: 'Subscribed' },
+                    { title: 'Source' },
                     { title: 'Status' },
+                    { title: 'Subscribed' },
                 ]"
                 :pagination="{
                   hasNext: metaHasNext,
@@ -27,16 +28,22 @@
                     <IndexTableCell>{{ item.sent }}</IndexTableCell>
                     <IndexTableCell>{{ item.opens_count }}</IndexTableCell>
                     <IndexTableCell>{{ item.clicks_count }}</IndexTableCell>
+                    <IndexTableCell>{{ item.source }}</IndexTableCell>
                     <IndexTableCell>
-                        {{ item.subscribed_at }}</IndexTableCell>
-                    <IndexTableCell>
-                        <Badge
-                            tone="success"
-                            progress="complete"
+                        <Badge v-if="item.status === 'unconfirmed'"
+                               progress="complete"
                         >
-                            Subscribed
+                            {{ item.status }}
+                        </Badge>
+                        <Badge v-else
+                               tone="success"
+                               progress="complete"
+                        >
+                            {{ item.status }}
                         </Badge>
                     </IndexTableCell>
+                    <IndexTableCell>{{ item.subscribed_at }}</IndexTableCell>
+
                 </IndexTableRow>
 
             </IndexTable>

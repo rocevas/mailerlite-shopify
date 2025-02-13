@@ -23,6 +23,32 @@ class MailerLiteService
         $this->client = new MailerLite(['api_key' => $apiKey]);
     }
 
+    public function getStats()
+    {
+        try {
+            // Retrieve subscribers (pass an empty array or parameters as needed)
+            $subscribersResponse = $this->client->subscribers->get([]);
+            // Retrieve campaigns (passing an empty array works if the SDK requires one)
+            $campaignsResponse   = $this->client->campaigns->get([]);
+            // Retrieve automations
+            $automationsResponse = $this->client->automations->get([]);
+            // Retrieve forms – note: the Forms endpoint expects a string for the type.
+            $formsResponse = $this->client->forms->get('popup');
+
+            // Here we assume the responses contain a 'body' key with the list of items.
+            // (If the responses are paginated, consider using the meta field for total counts.)
+            $stats = [
+                'subscribers_count' => is_array($subscribersResponse['body']) ? count($subscribersResponse['body']) : 0,
+                'campaigns_count'   => is_array($campaignsResponse['body'])   ? count($campaignsResponse['body'])   : 0,
+                'automations_count' => is_array($automationsResponse['body']) ? count($automationsResponse['body']) : 0,
+                'forms_count'       => is_array($formsResponse['body'])       ? count($formsResponse['body'])       : 0,
+            ];
+            return $stats;
+        } catch (Exception $e) {
+            throw new Exception('Error fetching stats: ' . $e->getMessage());
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Subscribers API Methods
@@ -461,86 +487,6 @@ class MailerLiteService
     | Templates API Methods
     |--------------------------------------------------------------------------
     */
-
-    /**
-     * Get a list of templates.
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getTemplates()
-    {
-        try {
-            return $this->client->templates->get();
-        } catch (Exception $e) {
-            throw new Exception('Error fetching templates: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Find a template by ID.
-     *
-     * @param int|string $id
-     * @return array
-     * @throws Exception
-     */
-    public function findTemplate($id)
-    {
-        try {
-            return $this->client->templates->find($id);
-        } catch (Exception $e) {
-            throw new Exception('Error finding template: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Create a new template.
-     *
-     * @param array $data
-     * @return array
-     * @throws Exception
-     */
-    public function createTemplate(array $data)
-    {
-        try {
-            return $this->client->templates->create($data);
-        } catch (Exception $e) {
-            throw new Exception('Error creating template: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Update an existing template.
-     *
-     * @param int|string $id
-     * @param array $data
-     * @return array
-     * @throws Exception
-     */
-    public function updateTemplate($id, array $data)
-    {
-        try {
-            return $this->client->templates->update($id, $data);
-        } catch (Exception $e) {
-            throw new Exception('Error updating template: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Delete a template.
-     *
-     * @param int|string $id
-     * @return array
-     * @throws Exception
-     */
-    public function deleteTemplate($id)
-    {
-        try {
-            return $this->client->templates->delete($id);
-        } catch (Exception $e) {
-            throw new Exception('Error deleting template: ' . $e->getMessage());
-        }
-    }
 
     /*
     |--------------------------------------------------------------------------

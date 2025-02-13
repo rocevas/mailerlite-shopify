@@ -12,22 +12,16 @@ class DashboardController extends Controller
     {
 
         $user = auth()->user();
-        $shops = [];
+        $apiKey = $user->mailerlite_api_key;
+        $mailerLiteService = new MailerLiteService($apiKey);
 
-        $mailerLiteService = new MailerLiteService($user->mailerlite_api_key);
         try {
-            $shops = $mailerLiteService->getEcommerceShops();
+            $stats = $mailerLiteService->getStats();
         } catch (\Exception $e) {
-            // Optionally log the error or set a flash message.
-            // For now, we'll just set $shops to an empty array.
-            $shops = [];
+            return back()->withErrors($e->getMessage());
         }
 
-//        logger($shops);
-
-        return Inertia::render('Home', [
-
-        ]);
+        return Inertia::render('Home', $stats);
     }
 
     public function subscribers()
@@ -62,7 +56,7 @@ class DashboardController extends Controller
         $mailerLiteService = new MailerLiteService($apiKey);
 
         // Get the filter from query, defaulting to 'draft'
-        $status = $request->query('status', 'draft');
+        $status = $request->query('status', 'sent');
 
         // For example, fetch the list of campaigns
         try {
@@ -131,28 +125,6 @@ class DashboardController extends Controller
         return Inertia::render('Forms', [
             'forms' => $forms['body'],
             'selectedType' => $type,
-        ]);
-    }
-
-    public function templates()
-    {
-        // Retrieve the authenticated user's MailerLite API key
-        $user = auth()->user();
-        $apiKey = $user->mailerlite_api_key;
-
-        // Initialize the MailerLite service with the user's API key
-        $mailerLiteService = new MailerLiteService($apiKey);
-
-        // For example, fetch the list of templates
-        try {
-            $templates = $mailerLiteService->getTemplates();
-        } catch (\Exception $e) {
-            // Handle the error (e.g., log it or display an error message)
-            return back()->withErrors($e->getMessage());
-        }
-
-        return Inertia::render('Templates', [
-            'templates' => $templates['body']
         ]);
     }
 }

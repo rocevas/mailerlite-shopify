@@ -7,25 +7,25 @@
                 <LayoutSection>
                     <Grid>
                         <GridCell :column-span="{ xs: 6, sm: 6, md: 3, lg: 3, xl: 3 }">
-                            <LegacyCard title="Campaigns" sectioned>
+                            <LegacyCard title="Sent Campaigns" sectioned>
                                 <BlockStack gap="200">
                                     <Text variant="heading3xl" as="h3">
-                                        5
+                                        {{ campaigns_count }}
                                     </Text>
                                 </BlockStack>
                             </LegacyCard>
                         </GridCell>
                         <GridCell :column-span="{ xs: 6, sm: 6, md: 3, lg: 3, xl: 3 }">
-                            <LegacyCard title="Subscribers" sectioned>
+                            <LegacyCard title="Active Subscribers" sectioned>
                                 <BlockStack gap="200">
                                     <Text variant="heading3xl" as="h3">
-                                        5
+                                        {{ subscribers_count }}
                                     </Text>
                                 </BlockStack>
                             </LegacyCard>
                         </GridCell>
                         <GridCell :column-span="{ xs: 6, sm: 6, md: 3, lg: 3, xl: 3 }">
-                            <LegacyCard title="Automations" sectioned>
+                            <LegacyCard title="Active Automations" sectioned>
                                 <BlockStack gap="200">
                                     <Text variant="heading3xl" as="h3">
                                         5
@@ -37,7 +37,7 @@
                             <LegacyCard title="Forms" sectioned>
                                 <BlockStack gap="200">
                                     <Text variant="heading3xl" as="h3">
-                                        5
+                                        {{ forms_count }}
                                     </Text>
                                 </BlockStack>
                             </LegacyCard>
@@ -48,10 +48,9 @@
                 <LayoutSection>
                     <LegacyCard sectioned>
                         <EmptyState
-                            heading="Dashbaord test"
+                            heading="Shop info"
                             image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
                         >
-                            <p>Shop info</p>
                             {{ page.props.auth.user }}
 
                         </EmptyState>
@@ -65,11 +64,17 @@
 <script setup>
 import {Link, router, usePage} from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
-const page = usePage();
 
 const props = defineProps({
+    // Expecting a paginated response with a data property
+    subscribers_count: Number,
+    campaigns_count: Number,
+    automations_count: Number,
+    forms_count: Number,
+});
 
-})
+const page = usePage();
+
 const goTo = (routeName, params = {}) => {
     return () => router.visit(route(routeName, params));
 };

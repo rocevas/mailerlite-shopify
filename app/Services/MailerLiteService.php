@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Client;
 use MailerLite\MailerLite;
 use Exception;
 
 class MailerLiteService
 {
     protected $client;
+    protected $apiKey;
 
     /**
      * Initialize the service with a MailerLite API key.
@@ -16,7 +18,9 @@ class MailerLiteService
      */
     public function __construct(string $apiKey)
     {
-        $this->client = new MailerLite($apiKey);
+        $this->apiKey = $apiKey;
+        // Initialize the SDK client for endpoints it supports
+        $this->client = new MailerLite(['api_key' => $apiKey]);
     }
 
     /*
@@ -34,7 +38,7 @@ class MailerLiteService
     public function getSubscribers()
     {
         try {
-            return $this->client->subscribers()->get();
+            return $this->client->subscribers->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching subscribers: ' . $e->getMessage());
         }
@@ -50,7 +54,7 @@ class MailerLiteService
     public function findSubscriber($id)
     {
         try {
-            return $this->client->subscribers()->find($id);
+            return $this->client->subscribers->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding subscriber: ' . $e->getMessage());
         }
@@ -66,7 +70,7 @@ class MailerLiteService
     public function createSubscriber(array $data)
     {
         try {
-            return $this->client->subscribers()->create($data);
+            return $this->client->subscribers->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating subscriber: ' . $e->getMessage());
         }
@@ -83,7 +87,7 @@ class MailerLiteService
     public function updateSubscriber($id, array $data)
     {
         try {
-            return $this->client->subscribers()->update($id, $data);
+            return $this->client->subscribers->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating subscriber: ' . $e->getMessage());
         }
@@ -99,7 +103,7 @@ class MailerLiteService
     public function deleteSubscriber($id)
     {
         try {
-            return $this->client->subscribers()->delete($id);
+            return $this->client->subscribers->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting subscriber: ' . $e->getMessage());
         }
@@ -120,7 +124,7 @@ class MailerLiteService
     public function getCampaigns()
     {
         try {
-            return $this->client->campaigns()->get();
+            return $this->client->campaigns->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching campaigns: ' . $e->getMessage());
         }
@@ -136,7 +140,7 @@ class MailerLiteService
     public function findCampaign($id)
     {
         try {
-            return $this->client->campaigns()->find($id);
+            return $this->client->campaigns->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding campaign: ' . $e->getMessage());
         }
@@ -152,7 +156,7 @@ class MailerLiteService
     public function createCampaign(array $data)
     {
         try {
-            return $this->client->campaigns()->create($data);
+            return $this->client->campaigns->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating campaign: ' . $e->getMessage());
         }
@@ -169,7 +173,7 @@ class MailerLiteService
     public function updateCampaign($id, array $data)
     {
         try {
-            return $this->client->campaigns()->update($id, $data);
+            return $this->client->campaigns->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating campaign: ' . $e->getMessage());
         }
@@ -185,7 +189,7 @@ class MailerLiteService
     public function deleteCampaign($id)
     {
         try {
-            return $this->client->campaigns()->delete($id);
+            return $this->client->campaigns->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting campaign: ' . $e->getMessage());
         }
@@ -206,7 +210,7 @@ class MailerLiteService
     public function getGroups()
     {
         try {
-            return $this->client->groups()->get();
+            return $this->client->groups->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching groups: ' . $e->getMessage());
         }
@@ -222,7 +226,7 @@ class MailerLiteService
     public function findGroup($id)
     {
         try {
-            return $this->client->groups()->find($id);
+            return $this->client->groups->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding group: ' . $e->getMessage());
         }
@@ -238,7 +242,7 @@ class MailerLiteService
     public function createGroup(array $data)
     {
         try {
-            return $this->client->groups()->create($data);
+            return $this->client->groups->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating group: ' . $e->getMessage());
         }
@@ -255,7 +259,7 @@ class MailerLiteService
     public function updateGroup($id, array $data)
     {
         try {
-            return $this->client->groups()->update($id, $data);
+            return $this->client->groups->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating group: ' . $e->getMessage());
         }
@@ -271,7 +275,7 @@ class MailerLiteService
     public function deleteGroup($id)
     {
         try {
-            return $this->client->groups()->delete($id);
+            return $this->client->groups->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting group: ' . $e->getMessage());
         }
@@ -292,7 +296,7 @@ class MailerLiteService
     public function getForms()
     {
         try {
-            return $this->client->forms()->get();
+            return $this->client->forms->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching forms: ' . $e->getMessage());
         }
@@ -308,7 +312,7 @@ class MailerLiteService
     public function findForm($id)
     {
         try {
-            return $this->client->forms()->find($id);
+            return $this->client->forms->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding form: ' . $e->getMessage());
         }
@@ -324,7 +328,7 @@ class MailerLiteService
     public function createForm(array $data)
     {
         try {
-            return $this->client->forms()->create($data);
+            return $this->client->forms->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating form: ' . $e->getMessage());
         }
@@ -341,7 +345,7 @@ class MailerLiteService
     public function updateForm($id, array $data)
     {
         try {
-            return $this->client->forms()->update($id, $data);
+            return $this->client->forms->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating form: ' . $e->getMessage());
         }
@@ -357,7 +361,7 @@ class MailerLiteService
     public function deleteForm($id)
     {
         try {
-            return $this->client->forms()->delete($id);
+            return $this->client->forms->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting form: ' . $e->getMessage());
         }
@@ -378,7 +382,7 @@ class MailerLiteService
     public function getAutomations()
     {
         try {
-            return $this->client->automations()->get();
+            return $this->client->automations->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching automations: ' . $e->getMessage());
         }
@@ -394,7 +398,7 @@ class MailerLiteService
     public function findAutomation($id)
     {
         try {
-            return $this->client->automations()->find($id);
+            return $this->client->automations->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding automation: ' . $e->getMessage());
         }
@@ -410,7 +414,7 @@ class MailerLiteService
     public function createAutomation(array $data)
     {
         try {
-            return $this->client->automations()->create($data);
+            return $this->client->automations->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating automation: ' . $e->getMessage());
         }
@@ -427,7 +431,7 @@ class MailerLiteService
     public function updateAutomation($id, array $data)
     {
         try {
-            return $this->client->automations()->update($id, $data);
+            return $this->client->automations->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating automation: ' . $e->getMessage());
         }
@@ -443,7 +447,7 @@ class MailerLiteService
     public function deleteAutomation($id)
     {
         try {
-            return $this->client->automations()->delete($id);
+            return $this->client->automations->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting automation: ' . $e->getMessage());
         }
@@ -464,7 +468,7 @@ class MailerLiteService
     public function getTemplates()
     {
         try {
-            return $this->client->templates()->get();
+            return $this->client->templates->get();
         } catch (Exception $e) {
             throw new Exception('Error fetching templates: ' . $e->getMessage());
         }
@@ -480,7 +484,7 @@ class MailerLiteService
     public function findTemplate($id)
     {
         try {
-            return $this->client->templates()->find($id);
+            return $this->client->templates->find($id);
         } catch (Exception $e) {
             throw new Exception('Error finding template: ' . $e->getMessage());
         }
@@ -496,7 +500,7 @@ class MailerLiteService
     public function createTemplate(array $data)
     {
         try {
-            return $this->client->templates()->create($data);
+            return $this->client->templates->create($data);
         } catch (Exception $e) {
             throw new Exception('Error creating template: ' . $e->getMessage());
         }
@@ -513,7 +517,7 @@ class MailerLiteService
     public function updateTemplate($id, array $data)
     {
         try {
-            return $this->client->templates()->update($id, $data);
+            return $this->client->templates->update($id, $data);
         } catch (Exception $e) {
             throw new Exception('Error updating template: ' . $e->getMessage());
         }
@@ -529,9 +533,303 @@ class MailerLiteService
     public function deleteTemplate($id)
     {
         try {
-            return $this->client->templates()->delete($id);
+            return $this->client->templates->delete($id);
         } catch (Exception $e) {
             throw new Exception('Error deleting template: ' . $e->getMessage());
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | E-commerce API Methods
+    |--------------------------------------------------------------------------
+    |
+    | These methods use a Guzzle client to call endpoints that are not wrapped
+    | by the official MailerLite PHP SDK.
+    |
+    */
+
+    /**
+     * Get a Guzzle HTTP client pre-configured for MailerLite API requests.
+     *
+     * @return Client
+     */
+    private function getGuzzleClient(): Client
+    {
+        return new Client([
+            'base_uri' => 'https://api.mailerlite.com/api/v2/',
+            'headers'  => [
+                'Content-Type'      => 'application/json',
+                // Using the header required by MailerLite for authentication
+                'X-MailerLite-ApiKey' => $this->apiKey,
+            ],
+        ]);
+    }
+
+    /**
+     * Get a list of e-commerce shops.
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceShops(): array
+    {
+        try {
+            $client = $this->getGuzzleClient();
+            $response = $client->get('ecommerce/shops');
+            $data = json_decode($response->getBody()->getContents(), true);
+            return $data;
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce shops: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get details of a specific e-commerce shop.
+     *
+     * @param string $shopId
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceShop(string $shopId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->get("ecommerce/shops/{$shopId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce shop: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update an e-commerce shop.
+     *
+     * @param string $shopId
+     * @param array  $data
+     * @return array
+     * @throws Exception
+     */
+    public function updateEcommerceShop(string $shopId, array $data): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->patch("ecommerce/shops/{$shopId}", [
+                'json' => $data,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error updating e-commerce shop: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete an e-commerce shop.
+     *
+     * @param string $shopId
+     * @return array
+     * @throws Exception
+     */
+    public function deleteEcommerceShop(string $shopId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->delete("ecommerce/shops/{$shopId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error deleting e-commerce shop: ' . $e->getMessage());
+        }
+    }
+
+    // --- E-commerce Orders ---
+
+    /**
+     * List all e-commerce orders.
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceOrders(): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->get("ecommerce/orders");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce orders: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get details of a specific e-commerce order.
+     *
+     * @param string $orderId
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceOrder(string $orderId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->get("ecommerce/orders/{$orderId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce order: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Create a new e-commerce order.
+     *
+     * @param array $data
+     * @return array
+     * @throws Exception
+     */
+    public function createEcommerceOrder(array $data): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->post("ecommerce/orders", [
+                'json' => $data,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error creating e-commerce order: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update an existing e-commerce order.
+     *
+     * @param string $orderId
+     * @param array  $data
+     * @return array
+     * @throws Exception
+     */
+    public function updateEcommerceOrder(string $orderId, array $data): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->patch("ecommerce/orders/{$orderId}", [
+                'json' => $data,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error updating e-commerce order: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete an e-commerce order.
+     *
+     * @param string $orderId
+     * @return array
+     * @throws Exception
+     */
+    public function deleteEcommerceOrder(string $orderId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->delete("ecommerce/orders/{$orderId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error deleting e-commerce order: ' . $e->getMessage());
+        }
+    }
+
+    // --- E-commerce Products ---
+
+    /**
+     * List all e-commerce products.
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceProducts(): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->get("ecommerce/products");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce products: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get details of a specific e-commerce product.
+     *
+     * @param string $productId
+     * @return array
+     * @throws Exception
+     */
+    public function getEcommerceProduct(string $productId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->get("ecommerce/products/{$productId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error fetching e-commerce product: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Create a new e-commerce product.
+     *
+     * @param array $data
+     * @return array
+     * @throws Exception
+     */
+    public function createEcommerceProduct(array $data): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->post("ecommerce/products", [
+                'json' => $data,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error creating e-commerce product: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update an existing e-commerce product.
+     *
+     * @param string $productId
+     * @param array  $data
+     * @return array
+     * @throws Exception
+     */
+    public function updateEcommerceProduct(string $productId, array $data): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->patch("ecommerce/products/{$productId}", [
+                'json' => $data,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error updating e-commerce product: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete an e-commerce product.
+     *
+     * @param string $productId
+     * @return array
+     * @throws Exception
+     */
+    public function deleteEcommerceProduct(string $productId): array
+    {
+        try {
+            $client   = $this->getGuzzleClient();
+            $response = $client->delete("ecommerce/products/{$productId}");
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (Exception $e) {
+            throw new Exception('Error deleting e-commerce product: ' . $e->getMessage());
         }
     }
 }

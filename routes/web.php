@@ -13,6 +13,7 @@ Route::middleware(['verify.shopify'])->group( function () {
 
     Route::middleware([EnsureMailerLiteApiKey::class])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('home');
+        Route::get('/subscribers', [DashboardController::class, 'subscribers'])->name('subscribers.index');
     });
 
 });

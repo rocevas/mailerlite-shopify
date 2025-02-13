@@ -12,7 +12,8 @@
         "php": "^8.2",
         "kyon147/laravel-shopify": "^22.0",
         "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "mailerlite/mailerlite-php": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

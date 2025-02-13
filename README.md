@@ -1,1 +1,1 @@
-# Mailerlite Shopify app
+# Mailerlite Shopify App

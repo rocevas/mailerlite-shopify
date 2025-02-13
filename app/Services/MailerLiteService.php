@@ -293,10 +293,13 @@ class MailerLiteService
      * @return array
      * @throws Exception
      */
-    public function getForms()
+    public function getForms(array $params = [])
     {
+        // Extract the 'type' from the filter or default to 'popup'
+        $type = isset($params['filter']['type']) ? $params['filter']['type'] : 'popup';
+
         try {
-            return $this->client->forms->get();
+            return $this->client->forms->get($type);
         } catch (Exception $e) {
             throw new Exception('Error fetching forms: ' . $e->getMessage());
         }

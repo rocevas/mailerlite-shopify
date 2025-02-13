@@ -104,7 +104,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function forms()
+    public function forms(Request $request)
     {
         // Retrieve the authenticated user's MailerLite API key
         $user = auth()->user();
@@ -113,16 +113,24 @@ class DashboardController extends Controller
         // Initialize the MailerLite service with the user's API key
         $mailerLiteService = new MailerLiteService($apiKey);
 
+        // Get the filter from query, defaulting to 'draft'
+        $type = $request->query('type', 'popup');
+
         // For example, fetch the list of forms
         try {
-            $forms = $mailerLiteService->getForms();
+            $forms = $mailerLiteService->getForms([
+                'filter' => [
+                    'type' => $type,
+                ],
+            ]);
         } catch (\Exception $e) {
             // Handle the error (e.g., log it or display an error message)
             return back()->withErrors($e->getMessage());
         }
 
         return Inertia::render('Forms', [
-            'forms' => $forms['body']
+            'forms' => $forms['body'],
+            'selectedType' => $type,
         ]);
     }
 

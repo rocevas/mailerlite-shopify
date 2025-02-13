@@ -1,10 +1,8 @@
 <template>
-    <AppLayout title="Campaigns">
+    <AppLayout title="Automations">
         <Page
-            title="Campaigns"
+            title="Automations"
         >
-            <Tabs :tabs="tabs" :selected="selected" @select="handleTabChange" />
-
             <LegacyCard>
                 <IndexTable
                 :resourceName="resourceName"
@@ -15,6 +13,7 @@
                     { title: 'Sent' },
                     { title: 'Opened' },
                     { title: 'Clicked' },
+                    { title: 'Status' },
                     { title: 'Created' },
                 ]"
                 :pagination="{
@@ -24,13 +23,21 @@
             >
 
                 <IndexTableRow v-for="item in items" :key="item.id">
+                    <IndexTableCell>{{ item.name }}</IndexTableCell>
+                    <IndexTableCell>{{ item.stats.sent }}</IndexTableCell>
+                    <IndexTableCell>{{ item.stats.opens_count }}</IndexTableCell>
+                    <IndexTableCell>{{ item.stats.clicks_count }}</IndexTableCell>
                     <IndexTableCell>
-                        {{ item.name }}<br>
-                        {{ item.type }}
+                        <Badge v-if="!item.enabled" progress="partiallyComplete" tone="warning">
+                            Inactive
+                        </Badge>
+                        <Badge v-else
+                            tone="success"
+                            progress="complete"
+                        >
+                            Active
+                        </Badge>
                     </IndexTableCell>
-                    <IndexTableCell>{{ item.emails[0].stats.sent }}</IndexTableCell>
-                    <IndexTableCell>{{ item.emails[0].stats.opens_count }}</IndexTableCell>
-                    <IndexTableCell>{{ item.emails[0].stats.clicks_count }}</IndexTableCell>
                     <IndexTableCell>{{ item.created_at }}</IndexTableCell>
                 </IndexTableRow>
 
@@ -51,46 +58,22 @@ const page = usePage();
 // with a "data" array (and possibly "links" and "meta" for pagination)
 const props = defineProps({
     // Expecting a paginated response with a data property
-    campaigns: {
+    automations: {
         type: Object,
-    },
-    selectedStatus: {
-        type: String,
-        default: 'draft'
     }
 });
 
 // Extract the items array and meta info for pagination
-const items = ref(props.campaigns.data || []);
-const meta = props.campaigns.meta || {};
+const items = ref(props.automations.data || []);
+const meta = props.automations.meta || {};
 // For example, if the API returns a boolean or cursor info:
 const metaHasNext = meta.next_cursor ? true : false;
 
 // Define resource names for the table
 const resourceName = {
-    singular: 'campaign',
-    plural: 'campaign'
+    singular: 'automation',
+    plural: 'automation'
 };
-
-// Define your tabs with a filter value for each
-const tabs = ref([
-    { content: 'Sent', filter: 'sent' },
-    { content: 'Draft', filter: 'draft' },
-    { content: 'Outbox', filter: 'ready' }
-]);
-
-// The currently selected tab index; default to the one matching the current filter
-const selected = ref(
-    tabs.value.findIndex((tab) => tab.filter === props.selectedStatus) || 0
-);
-
-// When the tab changes, get the filter and trigger a route visit
-function handleTabChange(newTabIndex) {
-    selected.value = newTabIndex;
-    const status = tabs.value[newTabIndex].filter;
-    // Inertia visit to the campaigns route with query parameter "status"
-    router.visit(route('campaigns.index', { status }));
-}
 
 function handleNextPage() {
     console.log('Load next page');

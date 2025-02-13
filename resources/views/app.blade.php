@@ -10,7 +10,6 @@
         <a href="/subscribers">Subscribers</a>
         <a href="/automations">Automations</a>
         <a href="/forms">Forms</a>
-        <a href="/templates">Templates</a>
     </ui-nav-menu>
     @inertiaHead
 @endsection

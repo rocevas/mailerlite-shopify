@@ -47,10 +47,104 @@ class DashboardController extends Controller
             return back()->withErrors($e->getMessage());
         }
 
-        logger($subscribers['body']);
-
         return Inertia::render('Subscribers', [
             'subscribers' => $subscribers['body']
+        ]);
+    }
+
+    public function campaigns(Request $request)
+    {
+        // Retrieve the authenticated user's MailerLite API key
+        $user = auth()->user();
+        $apiKey = $user->mailerlite_api_key;
+
+        // Initialize the MailerLite service with the user's API key
+        $mailerLiteService = new MailerLiteService($apiKey);
+
+        // Get the filter from query, defaulting to 'draft'
+        $status = $request->query('status', 'draft');
+
+        // For example, fetch the list of campaigns
+        try {
+            $campaigns = $mailerLiteService->getCampaigns([
+                'filter' => [
+                    'status' => $status,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Handle the error (e.g., log it or display an error message)
+            return back()->withErrors($e->getMessage());
+        }
+
+        return Inertia::render('Campaigns', [
+            'campaigns' => $campaigns['body'],
+            'selectedStatus' => $status,
+        ]);
+    }
+
+    public function automations()
+    {
+        // Retrieve the authenticated user's MailerLite API key
+        $user = auth()->user();
+        $apiKey = $user->mailerlite_api_key;
+
+        // Initialize the MailerLite service with the user's API key
+        $mailerLiteService = new MailerLiteService($apiKey);
+
+        // For example, fetch the list of automations
+        try {
+            $automations = $mailerLiteService->getAutomations();
+        } catch (\Exception $e) {
+            // Handle the error (e.g., log it or display an error message)
+            return back()->withErrors($e->getMessage());
+        }
+
+        return Inertia::render('Automations', [
+            'automations' => $automations['body']
+        ]);
+    }
+
+    public function forms()
+    {
+        // Retrieve the authenticated user's MailerLite API key
+        $user = auth()->user();
+        $apiKey = $user->mailerlite_api_key;
+
+        // Initialize the MailerLite service with the user's API key
+        $mailerLiteService = new MailerLiteService($apiKey);
+
+        // For example, fetch the list of forms
+        try {
+            $forms = $mailerLiteService->getForms();
+        } catch (\Exception $e) {
+            // Handle the error (e.g., log it or display an error message)
+            return back()->withErrors($e->getMessage());
+        }
+
+        return Inertia::render('Forms', [
+            'forms' => $forms['body']
+        ]);
+    }
+
+    public function templates()
+    {
+        // Retrieve the authenticated user's MailerLite API key
+        $user = auth()->user();
+        $apiKey = $user->mailerlite_api_key;
+
+        // Initialize the MailerLite service with the user's API key
+        $mailerLiteService = new MailerLiteService($apiKey);
+
+        // For example, fetch the list of templates
+        try {
+            $templates = $mailerLiteService->getTemplates();
+        } catch (\Exception $e) {
+            // Handle the error (e.g., log it or display an error message)
+            return back()->withErrors($e->getMessage());
+        }
+
+        return Inertia::render('Templates', [
+            'templates' => $templates['body']
         ]);
     }
 }

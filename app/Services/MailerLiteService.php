@@ -121,10 +121,10 @@ class MailerLiteService
      * @return array
      * @throws Exception
      */
-    public function getCampaigns()
+    public function getCampaigns(array $params = [])
     {
         try {
-            return $this->client->campaigns->get();
+            return $this->client->campaigns->get($params);
         } catch (Exception $e) {
             throw new Exception('Error fetching campaigns: ' . $e->getMessage());
         }
@@ -379,10 +379,10 @@ class MailerLiteService
      * @return array
      * @throws Exception
      */
-    public function getAutomations()
+    public function getAutomations(array $params = [])
     {
         try {
-            return $this->client->automations->get();
+            return $this->client->automations->get($params);
         } catch (Exception $e) {
             throw new Exception('Error fetching automations: ' . $e->getMessage());
         }

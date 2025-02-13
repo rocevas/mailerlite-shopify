@@ -75,11 +75,6 @@ const resourceName = {
 
 function handleNextPage() {
     console.log('Load next page');
-    // You might use Inertia to visit the next page URL provided in props.subscribers.links.next.
-    // For example:
-    // if (props.subscribers.links.next) {
-    //   router.visit(props.subscribers.links.next);
-    // }
 }
 
 // Optional: helper to navigate to routes via Inertia

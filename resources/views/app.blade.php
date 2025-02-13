@@ -6,7 +6,11 @@
     @vite('resources/js/app.js')
     <ui-nav-menu>
         <a href="/" rel="home">Home</a>
+        <a href="/campaigns">Campaigns</a>
         <a href="/subscribers">Subscribers</a>
+        <a href="/automations">Automations</a>
+        <a href="/forms">Forms</a>
+        <a href="/templates">Templates</a>
     </ui-nav-menu>
     @inertiaHead
 @endsection

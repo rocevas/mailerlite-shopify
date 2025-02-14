@@ -25,7 +25,7 @@ ssh-root: ## SSH into the main container as root
 	./vendor/bin/sail root-shell
 
 setup: ## Run setup to create ENV
-	cp .env.example .env
+	#cp .env.example .env
 	composer install
 	./vendor/bin/sail up -d
 	./vendor/bin/sail composer install

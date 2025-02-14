@@ -4,7 +4,7 @@ notify = osascript -e 'display notification $(1) with title "MB"'
 
 up: ## Starts docker containers and builds the application
 	./vendor/bin/sail up -d
-	#./vendor/bin/sail bun run build
+	./vendor/bin/sail bun run build
 	docker-compose ps
 
 watch: ## Starts docker containers and watch/rebuild on file changes
